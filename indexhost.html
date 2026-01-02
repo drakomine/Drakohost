@@ -1,0 +1,577 @@
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRAKOHOST | Premium Minecraft Hosting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { blue: '#2563eb', dark: '#050505', accent: '#60a5fa', navy: '#1e3a8a' },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #ffffff05 1px, transparent 1px), linear-gradient(to bottom, #ffffff05 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { 
+            background-color: #050505; 
+            color: white; 
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(37, 99, 235, 0.08), transparent 25%), 
+                radial-gradient(circle at 85% 30%, rgba(96, 165, 250, 0.08), transparent 25%);
+        }
+        
+        .bg-grid {
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, transparent, black, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 5%, black 40%, black 70%, transparent 95%);
+        }
+
+        /* Text Effects */
+        .blue-gradient-text {
+            background: linear-gradient(90deg, #fff, #2563eb, #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: shine 5s linear infinite;
+        }
+        @keyframes shine { to { background-position: 200% center; } }
+
+        /* Card & UI Styles */
+        .glass { 
+            background: rgba(10, 10, 10, 0.6); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Animations */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .hover-scale { transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
+        .hover-scale:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15); }
+
+        /* Step Styles - Blue Theme */
+        .step-number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: rgba(37, 99, 235, 0.1); 
+            line-height: 1;
+            transition: all 0.3s;
+        }
+        .step-card:hover .step-number { color: #2563eb; text-shadow: 0 0 30px rgba(37, 99, 235, 0.6); transform: scale(1.1); }
+        
+        /* Plan Recommender */
+        .highlight-plan { border: 2px solid #2563eb; box-shadow: 0 0 50px rgba(37,99,235,0.4); transform: scale(1.02); z-index: 10; background: rgba(37, 99, 235, 0.05); }
+
+        /* Toggle Switch */
+        .toggle-checkbox:checked { right: 0; border-color: #2563eb; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #2563eb; }
+    </style>
+</head>
+<body class="antialiased font-sans min-h-screen relative">
+
+    <!-- Grid Background Overlay -->
+    <div class="fixed inset-0 bg-grid-pattern bg-grid opacity-20 pointer-events-none z-[-1]"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-4 left-0 right-0 z-50 px-4">
+        <!-- Increased width and padding for better spacing -->
+        <div class="max-w-7xl mx-auto glass rounded-full h-16 flex items-center justify-between px-6 md:px-10 shadow-2xl">
+            <div class="flex items-center gap-3 shrink-0">
+                <i class="fa-solid fa-dragon text-brand-blue text-2xl"></i>
+                <span class="font-heading font-black tracking-tighter text-xl hidden sm:inline">DRAKO<span class="text-brand-blue">HOST</span></span>
+            </div>
+            
+            <!-- Adjust gap to prevent overlap -->
+            <div class="hidden md:flex gap-6 lg:gap-10 text-[11px] font-bold uppercase tracking-widest text-gray-400">
+                <a href="#recommender" class="hover:text-white transition hover:scale-105">Find Plan</a>
+                <a href="#plans" class="hover:text-white transition hover:scale-105">Store</a>
+                <a href="#process" class="hover:text-white transition hover:scale-105">Steps</a>
+            </div>
+
+            <a href="#plans" class="bg-brand-blue hover:bg-blue-600 transition text-[10px] sm:text-[11px] font-black px-6 py-3 rounded-full uppercase tracking-widest shadow-[0_0_15px_rgba(37,99,235,0.3)] shrink-0">
+                Client Area
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 px-4 overflow-hidden">
+        <!-- Backdrop Glow -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-blue/10 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div class="text-center z-10 max-w-5xl mx-auto">
+            <div class="reveal active space-y-8">
+                <div class="inline-flex items-center gap-2 glass px-5 py-2 rounded-full border border-brand-blue/20">
+                    <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                    <span class="text-[10px] font-bold text-gray-300 uppercase tracking-[0.2em]">Indian Nodes Online</span>
+                </div>
+                
+                <h1 class="text-6xl md:text-[8rem] lg:text-[9rem] font-heading font-black tracking-tighter leading-none">
+                    DRAKO<br><span class="blue-gradient-text">HOST</span>
+                </h1>
+                
+                <p class="text-gray-400 text-xs md:text-sm uppercase tracking-[0.2em] max-w-2xl mx-auto leading-loose">
+                    Deploy your <span class="text-brand-blue font-bold">Minecraft Server</span> in seconds.<br>
+                    Ryzen 9 Performance. Singapore Latency.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+                    <a href="#plans" class="bg-brand-blue text-white font-black px-10 py-4 rounded-xl text-xs uppercase tracking-widest hover:bg-blue-600 transition shadow-lg shadow-blue-900/20">View Pricing</a>
+                    <a href="#recommender" class="glass text-white font-black px-10 py-4 rounded-xl text-xs uppercase tracking-widest hover:bg-white/5 transition">System Recommender</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plan Recommender -->
+    <section id="recommender" class="py-24 px-4 relative z-10">
+        <div class="max-w-4xl mx-auto glass p-10 md:p-14 rounded-[2rem] reveal border-t border-brand-blue/30 text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-blue to-transparent"></div>
+            
+            <h2 class="text-3xl font-heading font-black mb-2 uppercase italic">AI Plan <span class="text-brand-blue">Selector</span></h2>
+            <p class="text-gray-400 text-xs uppercase tracking-widest mb-10">Input your requirements to find the perfect hardware match.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div class="text-left">
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-2">Expected Player Count</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-users absolute left-4 top-4 text-gray-500"></i>
+                        <input type="number" id="rec-players" class="w-full bg-black/40 border border-white/10 pl-12 p-4 rounded-xl text-white outline-none focus:border-brand-blue transition" placeholder="e.g. 10">
+                    </div>
+                </div>
+                <div class="text-left">
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-2">Number of Plugins/Mods</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-puzzle-piece absolute left-4 top-4 text-gray-500"></i>
+                        <input type="number" id="rec-plugins" class="w-full bg-black/40 border border-white/10 pl-12 p-4 rounded-xl text-white outline-none focus:border-brand-blue transition" placeholder="e.g. 15">
+                    </div>
+                </div>
+            </div>
+            <button onclick="findPlan()" class="bg-white text-black font-black px-12 py-4 rounded-xl text-xs uppercase tracking-widest hover:bg-gray-200 transition shadow-xl w-full md:w-auto">Find My Plan</button>
+            <div id="rec-result" class="mt-8 hidden animate-bounce">
+                <p class="text-brand-blue font-bold text-sm uppercase tracking-widest">Recommended Plan Highlighted Below</p>
+                <i class="fa-solid fa-arrow-down text-brand-blue mt-2"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plans -->
+    <section id="plans" class="py-10 px-4">
+        <div class="max-w-[90rem] mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-4xl font-heading font-black uppercase tracking-tighter italic">Server <span class="text-brand-blue">Plans</span></h2>
+                <div class="h-1 w-24 bg-brand-blue mx-auto mt-4 rounded-full"></div>
+            </div>
+            <div id="plans-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Plans Injected JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Deployment Steps (Blue Theme) -->
+    <section id="process" class="py-32 px-4 relative overflow-hidden">
+        <!-- Blue accent line -->
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-brand-blue to-transparent opacity-30"></div>
+        
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-20">
+                <span class="text-brand-blue font-bold text-xs uppercase tracking-[0.3em] mb-2 block">Start Your Journey</span>
+                <h2 class="text-4xl font-heading font-black uppercase italic tracking-tighter text-white">Deployment <span class="text-brand-blue">Steps</span></h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- 01 -->
+                <div class="step-card group reveal text-center p-8 border border-white/5 rounded-[2rem] bg-gradient-to-b from-white/5 to-transparent hover:border-brand-blue/30 transition duration-500">
+                    <div class="step-number mb-6">01</div>
+                    <h3 class="text-lg font-heading font-black uppercase text-white mb-3 tracking-widest">Select Plan</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed font-medium">Use our recommender or browse plans to find the right amount of RAM for your server.</p>
+                </div>
+                <!-- 02 -->
+                <div class="step-card group reveal text-center p-8 border border-white/5 rounded-[2rem] bg-gradient-to-b from-white/5 to-transparent hover:border-brand-blue/30 transition duration-500 delay-100">
+                    <div class="step-number mb-6">02</div>
+                    <h3 class="text-lg font-heading font-black uppercase text-white mb-3 tracking-widest">Configure</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed font-medium">Customize your server. Add databases, backup slots, or extra resources in the checkout menu.</p>
+                </div>
+                <!-- 03 -->
+                <div class="step-card group reveal text-center p-8 border border-white/5 rounded-[2rem] bg-gradient-to-b from-white/5 to-transparent hover:border-brand-blue/30 transition duration-500 delay-200">
+                    <div class="step-number mb-6">03</div>
+                    <h3 class="text-lg font-heading font-black uppercase text-white mb-3 tracking-widest">Payment</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed font-medium">Scan the QR code to pay. Choose the 3-Day Trial option to start with just 10% upfront.</p>
+                </div>
+                <!-- 04 -->
+                <div class="step-card group reveal text-center p-8 border border-white/5 rounded-[2rem] bg-gradient-to-b from-white/5 to-transparent hover:border-brand-blue/30 transition duration-500 delay-300">
+                    <div class="step-number mb-6">04</div>
+                    <h3 class="text-lg font-heading font-black uppercase text-white mb-3 tracking-widest">Online</h3>
+                    <p class="text-gray-400 text-xs leading-relaxed font-medium">Verify your transaction. Your server credentials will be emailed to you immediately.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/5 text-center px-4 bg-black/50 backdrop-blur-sm z-20 relative">
+        <div class="flex items-center justify-center gap-3 mb-6">
+            <i class="fa-solid fa-dragon text-brand-blue text-2xl"></i>
+            <span class="font-heading font-black tracking-tighter text-xl">DRAKO<span class="text-brand-blue">HOST</span></span>
+        </div>
+        <div class="flex justify-center gap-6 mb-8 text-xs font-bold text-gray-500 uppercase tracking-widest">
+            <a href="#" class="hover:text-brand-blue transition">Terms</a>
+            <a href="#" class="hover:text-brand-blue transition">Privacy</a>
+            <a href="#" class="hover:text-brand-blue transition">Support</a>
+        </div>
+        <p class="text-[10px] text-gray-700 uppercase tracking-[0.2em] italic">© 2024 Drakohost India. Engineered for Performance.</p>
+    </footer>
+
+    <!-- Details Modal (No Floating Animation) -->
+    <div id="details-modal" class="fixed inset-0 z-[100] hidden p-4 flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-md" onclick="closeModal('details-modal')"></div>
+        <div class="glass w-full max-w-lg rounded-[2.5rem] overflow-hidden relative z-10">
+            <div class="p-8 border-b border-white/10 text-center bg-gradient-to-r from-brand-blue/10 to-transparent">
+                <h3 id="det-name" class="text-4xl font-heading font-black text-brand-blue uppercase italic tracking-tighter">PLAN NAME</h3>
+                <p id="det-price" class="text-white text-2xl font-bold mt-2">₹00</p>
+            </div>
+            <div class="p-8 space-y-6">
+                <div class="space-y-2">
+                    <h4 class="text-[10px] font-black text-gray-500 uppercase tracking-widest">Technical Overview</h4>
+                    <p id="det-explanation" class="text-gray-300 text-xs leading-6"></p>
+                </div>
+                
+                <div class="bg-white/5 rounded-xl p-4 space-y-2 border border-white/5">
+                    <div class="flex justify-between text-xs border-b border-white/5 pb-2">
+                        <span class="text-gray-500 uppercase font-bold">Location</span>
+                        <span class="text-white font-bold"><i class="fa-solid fa-location-dot text-brand-blue mr-1"></i> Singapore (SG)</span>
+                    </div>
+                    <div class="flex justify-between text-xs border-b border-white/5 pb-2">
+                        <span class="text-gray-500 uppercase font-bold">Expected Ping</span>
+                        <span class="text-green-400 font-bold">60ms - 150ms</span>
+                    </div>
+                    <div class="flex justify-between text-xs pt-1">
+                        <span class="text-gray-500 uppercase font-bold">Databases</span>
+                        <span class="text-white font-bold">0 (Addon Available)</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-black/40 p-3 rounded-xl border border-white/10 text-center">
+                        <span class="text-[9px] text-gray-500 block uppercase mb-1 font-bold">Storage Type</span>
+                        <span id="det-storage" class="font-black text-sm text-white">0GB NVMe SSD</span>
+                    </div>
+                    <div class="bg-black/40 p-3 rounded-xl border border-white/10 text-center">
+                        <span class="text-[9px] text-gray-500 block uppercase mb-1 font-bold">Uplink</span>
+                        <span class="font-black text-sm text-white">1Gbps Unmetered</span>
+                    </div>
+                </div>
+                <button onclick="openPurchaseModal(currentPlanIndex)" class="w-full bg-brand-blue py-4 rounded-xl font-black uppercase text-xs tracking-widest shadow-2xl hover:bg-blue-400 transition">Deploy Server</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Purchase Modal (No Floating Animation) -->
+    <div id="purchase-modal" class="fixed inset-0 z-[110] hidden p-4 overflow-y-auto">
+        <div class="absolute inset-0 bg-black/98 backdrop-blur-xl" onclick="closeModal('purchase-modal')"></div>
+        <div class="relative bg-[#080808] w-full max-w-md mx-auto my-8 border border-white/10 rounded-[2.5rem] overflow-hidden z-20 shadow-2xl">
+            <div id="checkout-step-1">
+                <div class="p-6 border-b border-white/5 bg-white/5 flex justify-between items-center">
+                    <h3 class="font-heading font-black text-sm uppercase italic tracking-widest">Configure Instance</h3>
+                    <button onclick="closeModal('purchase-modal')"><i class="fa-solid fa-xmark text-gray-500 hover:text-red-500 transition"></i></button>
+                </div>
+                <div class="p-8 space-y-6">
+                    <div class="space-y-3">
+                        <input type="text" id="p-name" placeholder="Full Name" class="w-full bg-black border border-white/10 p-4 rounded-xl text-xs outline-none focus:border-brand-blue transition-colors">
+                        <input type="email" id="p-email" placeholder="Email Address" class="w-full bg-black border border-white/10 p-4 rounded-xl text-xs outline-none focus:border-brand-blue transition-colors">
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <label class="text-[10px] font-black text-brand-blue uppercase tracking-[0.2em]">Addons</label>
+                        
+                        <!-- DB -->
+                        <div class="flex items-center justify-between glass p-3 rounded-xl">
+                            <div><p class="text-[10px] font-black uppercase italic">MySQL Database</p><p class="text-[9px] text-gray-500">+₹10 / slot</p></div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="adjAddon('add-db', -1)" class="w-6 h-6 rounded bg-white/5 flex items-center justify-center text-xs">-</button>
+                                <span id="add-db" class="text-xs font-black w-4 text-center">0</span>
+                                <button onclick="adjAddon('add-db', 1, 5)" class="w-6 h-6 rounded bg-brand-blue flex items-center justify-center text-xs">+</button>
+                            </div>
+                        </div>
+
+                        <!-- RAM -->
+                        <div class="flex items-center justify-between glass p-3 rounded-xl border border-purple-500/20">
+                            <div><p class="text-[10px] font-black uppercase italic text-purple-400">Extra RAM</p><p class="text-[9px] text-gray-500">+₹15 / GB</p></div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="adjAddon('add-ram', -1)" class="w-6 h-6 rounded bg-white/5 flex items-center justify-center text-xs">-</button>
+                                <span id="add-ram" class="text-xs font-black w-4 text-center">0</span>
+                                <button onclick="adjAddon('add-ram', 1, 10)" class="w-6 h-6 rounded bg-brand-blue flex items-center justify-center text-xs">+</button>
+                            </div>
+                        </div>
+
+                        <!-- Backup -->
+                        <div class="flex items-center justify-between glass p-3 rounded-xl">
+                            <div><p class="text-[10px] font-black uppercase italic">Backup Slots</p><p class="text-[9px] text-gray-500">+₹10 / slot</p></div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="adjAddon('add-backup', -1)" class="w-6 h-6 rounded bg-white/5 flex items-center justify-center text-xs">-</button>
+                                <span id="add-backup" class="text-xs font-black w-4 text-center">0</span>
+                                <button onclick="adjAddon('add-backup', 1, 5)" class="w-6 h-6 rounded bg-brand-blue flex items-center justify-center text-xs">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trial Toggle -->
+                    <div class="bg-brand-blue/10 border border-brand-blue/30 p-4 rounded-xl flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-black text-brand-blue uppercase italic">3-Day Trial Access</p>
+                            <p class="text-[10px] text-gray-400">Pay 10% now. Pay rest later if satisfied.</p>
+                        </div>
+                        <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" name="toggle" id="trial-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-gray-900 transition-all duration-300" onclick="toggleTrial()"/>
+                            <label for="trial-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-900 cursor-pointer border border-white/20"></label>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-end pt-4 border-t border-white/5">
+                        <span class="text-xs font-black text-gray-500 uppercase pb-1">Total Due</span>
+                        <div class="text-right">
+                            <span id="strike-price" class="text-sm font-bold text-gray-500 line-through decoration-red-500 hidden mr-2">₹0</span>
+                            <span id="total-price" class="text-3xl font-heading font-black text-white">₹0</span>
+                        </div>
+                    </div>
+
+                    <button onclick="showQR()" class="w-full bg-white text-black py-4 rounded-xl font-black text-xs uppercase tracking-widest shadow-xl hover:bg-gray-200 transition">Proceed to Payment</button>
+                </div>
+            </div>
+
+            <div id="checkout-step-2" class="hidden p-10 text-center">
+                <h4 class="font-heading font-black text-2xl mb-4 uppercase italic">Scan To Pay</h4>
+                <div id="trial-badge" class="hidden inline-block bg-yellow-500/20 text-yellow-500 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full mb-4 border border-yellow-500/30">10% Trial Payment</div>
+                
+                <div class="bg-white p-4 rounded-2xl inline-block mb-6 shadow-2xl relative group">
+                    <img id="qr-code" src="" alt="QR" class="w-48 h-48">
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/80 opacity-0 group-hover:opacity-100 transition rounded-2xl">
+                        <span class="text-white font-bold text-xs">Scan with any UPI App</span>
+                    </div>
+                </div>
+                <div class="bg-brand-blue/10 border border-brand-blue/20 p-3 rounded-lg mb-6">
+                    <p class="text-brand-blue font-black text-lg">prantik150@fam</p>
+                    <p id="pay-amount-display" class="text-white text-xs font-bold mt-1">Paying: ₹0</p>
+                </div>
+                <button onclick="sendMail()" class="w-full bg-brand-blue py-4 rounded-xl font-black text-xs uppercase tracking-widest shadow-[0_0_20px_rgba(37,99,235,0.4)] animate-pulse">I Have Paid - Verify Now</button>
+                <button onclick="document.getElementById('checkout-step-2').classList.add('hidden');document.getElementById('checkout-step-1').classList.remove('hidden')" class="mt-4 text-gray-500 text-[10px] uppercase font-bold hover:text-white">Back to Config</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Data & Config ---
+        const plans = [
+            { id: 0, name: "Starter", price: 45, ram: "2GB", cpu: "50%", storage: "5GB", 
+              explanation: "Specifically built for lightweight proxy setups (BungeeCord/Velocity) or a private 2-player vanilla survival world. Not recommended for latest versions 1.20+." },
+            { id: 1, name: "Basic", price: 65, ram: "3GB", cpu: "75%", storage: "8GB", 
+              explanation: "Perfect for 4-5 players on a standard vanilla survival world. Offers smooth chunk generation for small groups." },
+            { id: 2, name: "Standard", price: 90, ram: "4GB", cpu: "100%", storage: "10GB", 
+              explanation: "The most popular choice for a small SMP (8-10 players). Handles core plugins like Essentials, LuckPerms, and WorldEdit flawlessly." },
+            { id: 3, name: "Plus", price: 125, ram: "6GB", cpu: "150%", storage: "15GB", 
+              explanation: "Designed for active SMPs with 10-15 players or small multiverse hubs hosting 2 worlds simultaneously." },
+            { id: 4, name: "Pro", price: 170, ram: "8GB", cpu: "200%", storage: "20GB", 
+              explanation: "A high-performance rig for large modpacks (100+ mods) or semi-anarchy servers with up to 20 concurrent players." },
+            { id: 5, name: "Ultra", price: 225, ram: "10GB", cpu: "250%", storage: "30GB", 
+              explanation: "Industrial power for mini-game networks or intense modpacks like RLcraft. Tuned for 30+ players." },
+            { id: 6, name: "Extreme", price: 300, ram: "12GB", cpu: "300%", storage: "40GB", 
+              explanation: "The ultimate hosting solution. Best for large established networks with multiple sub-servers and 50+ concurrent users." }
+        ];
+
+        let currentPlanIndex = 0;
+        let fullTotal = 0;
+        let finalPayable = 0;
+        let isTrial = false;
+        let addons = { db: 0, ram: 0, backup: 0 };
+
+        // --- Core Functions ---
+        
+        function renderPlans() {
+            const container = document.getElementById('plans-container');
+            container.innerHTML = '';
+            plans.forEach((p, i) => {
+                const div = document.createElement('div');
+                div.id = `plan-card-${i}`;
+                div.className = "hover-scale glass p-8 rounded-[2.5rem] flex flex-col border border-transparent hover:border-brand-blue/60 transition-all reveal relative overflow-hidden group";
+                div.innerHTML = `
+                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-20 transition-opacity"><i class="fa-solid fa-dragon text-7xl transform rotate-12"></i></div>
+                    <div class="bg-brand-blue/10 w-fit px-3 py-1 rounded-full mb-4"><span class="text-[9px] text-brand-blue font-black uppercase tracking-widest">Ryzen Power</span></div>
+                    <h3 class="font-heading font-black text-2xl italic uppercase mb-2 tracking-tighter">${p.name}</h3>
+                    <div class="mb-6"><span class="text-4xl font-heading font-black text-white">₹${p.price}</span><span class="text-gray-500 text-[10px] font-bold uppercase ml-1 tracking-widest">/Mo</span></div>
+                    
+                    <div class="w-full h-px bg-white/10 mb-6"></div>
+
+                    <ul class="space-y-3 mb-8 text-xs font-bold text-gray-400 uppercase tracking-widest flex-grow">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-microchip text-brand-blue"></i> ${p.cpu} Thread</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-memory text-brand-blue"></i> ${p.ram} DDR4</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-hard-drive text-brand-blue"></i> ${p.storage} SSD</li>
+                    </ul>
+                    <div class="space-y-3 z-10">
+                        <button onclick="openDetails(${i})" class="w-full py-4 border border-white/20 hover:border-brand-blue rounded-xl text-[10px] font-black hover:text-white uppercase tracking-widest transition">View Specs</button>
+                        <button onclick="openPurchaseModal(${i})" class="w-full py-4 bg-white text-black rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl hover:bg-brand-blue hover:text-white transition">Deploy Now</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function findPlan() {
+            const players = parseInt(document.getElementById('rec-players').value);
+            const plugins = parseInt(document.getElementById('rec-plugins').value);
+
+            if (!players || !plugins) return alert("Please enter valid numbers");
+
+            document.querySelectorAll('[id^="plan-card-"]').forEach(el => el.classList.remove('highlight-plan'));
+
+            let recommendedId = 0;
+            if (players <= 2 && plugins <= 3) recommendedId = 0;
+            else if (players <= 5 && plugins <= 10) recommendedId = 1;
+            else if (players <= 10 && plugins <= 15) recommendedId = 2;
+            else if (players <= 15 && plugins <= 20) recommendedId = 3;
+            else if (players <= 20 && plugins <= 100) recommendedId = 4;
+            else if (players <= 30) recommendedId = 5;
+            else recommendedId = 6;
+
+            const target = document.getElementById(`plan-card-${recommendedId}`);
+            document.getElementById('rec-result').classList.remove('hidden');
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => { target.classList.add('highlight-plan'); }, 500);
+        }
+
+        // --- Modals & Checkout ---
+        function openDetails(i) {
+            currentPlanIndex = i;
+            const p = plans[i];
+            document.getElementById('det-name').innerText = p.name;
+            document.getElementById('det-price').innerText = `₹${p.price}`;
+            document.getElementById('det-explanation').innerText = p.explanation;
+            document.getElementById('det-storage').innerText = p.storage + " SSD";
+            document.getElementById('details-modal').classList.remove('hidden');
+        }
+
+        function openPurchaseModal(i) {
+            currentPlanIndex = i;
+            addons = { db: 0, ram: 0, backup: 0 };
+            isTrial = false;
+            document.getElementById('add-db').innerText = "0";
+            document.getElementById('add-ram').innerText = "0";
+            document.getElementById('add-backup').innerText = "0";
+            document.getElementById('trial-toggle').checked = false;
+            
+            closeModal('details-modal');
+            document.getElementById('purchase-modal').classList.remove('hidden');
+            document.getElementById('checkout-step-1').classList.remove('hidden');
+            document.getElementById('checkout-step-2').classList.add('hidden');
+            calcTotal();
+        }
+
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        function adjAddon(id, val, max = 99) {
+            const key = id.replace('add-', '');
+            let current = addons[key];
+            current += val;
+            if(current < 0) current = 0;
+            if(current > max) current = max;
+            addons[key] = current;
+            document.getElementById(id).innerText = current;
+            calcTotal();
+        }
+
+        function toggleTrial() {
+            isTrial = document.getElementById('trial-toggle').checked;
+            calcTotal();
+        }
+
+        function calcTotal() {
+            const planPrice = plans[currentPlanIndex].price;
+            fullTotal = planPrice + (addons.db * 10) + (addons.ram * 15) + (addons.backup * 10);
+            
+            if(isTrial) {
+                finalPayable = Math.ceil(fullTotal * 0.10); // 10%
+                document.getElementById('strike-price').innerText = `₹${fullTotal}`;
+                document.getElementById('strike-price').classList.remove('hidden');
+                document.getElementById('total-price').innerText = `₹${finalPayable}`;
+                document.getElementById('total-price').classList.add('text-brand-accent');
+            } else {
+                finalPayable = fullTotal;
+                document.getElementById('strike-price').classList.add('hidden');
+                document.getElementById('total-price').innerText = `₹${finalPayable}`;
+                document.getElementById('total-price').classList.remove('text-brand-accent');
+            }
+        }
+
+        function showQR() {
+            const name = document.getElementById('p-name').value;
+            const email = document.getElementById('p-email').value;
+            if(!name || !email) return alert("Contact details required for deployment.");
+
+            const upi = `upi://pay?pa=prantik150@fam&pn=DrakoHost&am=${finalPayable}&cu=INR`;
+            document.getElementById('qr-code').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upi)}`;
+            document.getElementById('checkout-step-1').classList.add('hidden');
+            document.getElementById('checkout-step-2').classList.remove('hidden');
+            document.getElementById('pay-amount-display').innerText = `Paying: ₹${finalPayable}`;
+            
+            if(isTrial) {
+                document.getElementById('trial-badge').classList.remove('hidden');
+            } else {
+                document.getElementById('trial-badge').classList.add('hidden');
+            }
+        }
+
+        function sendMail() {
+            const p = plans[currentPlanIndex];
+            const orderType = isTrial ? "TRIAL ORDER (10% Paid)" : "FULL ORDER";
+            const remaining = isTrial ? (fullTotal - finalPayable) : 0;
+            
+            const subject = encodeURIComponent(`${orderType}: ${p.name} - ${document.getElementById('p-name').value}`);
+            const body = encodeURIComponent(
+                `ORDER TYPE: ${orderType}\n` +
+                `--------------------------------\n` +
+                `PLAN: ${p.name} (₹${p.price})\n` +
+                `TOTAL VALUE: ₹${fullTotal}\n` +
+                `AMOUNT PAID: ₹${finalPayable}\n` +
+                `REMAINING DUE: ₹${remaining}\n\n` +
+                `ADDONS CONFIGURED:\n` +
+                `- Databases: ${addons.db} (₹${addons.db*10})\n` +
+                `- Extra RAM: ${addons.ram}GB (₹${addons.ram*15})\n` +
+                `- Backup Slots: ${addons.backup} (₹${addons.backup*10})\n\n` +
+                `USER INFO:\n` +
+                `Name: ${document.getElementById('p-name').value}\n` +
+                `Email: ${document.getElementById('p-email').value}\n\n` +
+                `[PLEASE ATTACH THE UPI TRANSACTION SCREENSHOT BELOW]`
+            );
+            window.location.href = `mailto:drakomine150@gmail.com?subject=${subject}&body=${body}`;
+        }
+
+        // Init
+        renderPlans();
+        
+        // Observer
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    </script>
+</body>
+</html>
